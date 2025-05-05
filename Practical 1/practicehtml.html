@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset = "UTF-8">
+    <meta name = "viewport" width="device-width, initial-scale = 1">
+    <title>Product Catalogue</title>
+    <style>
+
+        body{
+            font-family: Arial,sans-serif;
+            padding : 20px;
+        }
+
+        h1{
+            align-items: center;
+        }
+        table{
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,td{
+            padding: 12px;
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        th{
+            background-color: #f2f2f2;
+        }
+
+        .pagination{
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .pagination button{
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        img{
+            max-width: 100%;
+        }
+
+        @media (max-width : 768px){
+            table,th,td{
+                font-size: 14px;
+            }
+
+            img{
+                max-width: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Product Catalogue</h1>
+    <table id = producttable>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Image</th>
+                <th>Price</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <div class = "pagination">
+        <button onclick="prevPage()">Prev</button>
+        <span id = "pageInfo">Page 1 of 1</span>
+        <button onclick="NextPage()">Next</button>
+    </div>
+
+    <script>
+        const products = [{ name: "Wireless Headphones", image: "https://via.placeholder.com/100", price: "₹7,999", desc: "Noise-cancelling over-ear headphones." },
+      { name: "Smartwatch", image: "https://via.placeholder.com/100", price: "₹12,999", desc: "Fitness tracking smartwatch." },
+      { name: "Gaming Mouse", image: "https://via.placeholder.com/100", price: "₹2,499", desc: "Ergonomic gaming mouse." },
+      { name: "Laptop Stand", image: "https://via.placeholder.com/100", price: "₹1,999", desc: "Adjustable aluminium stand." },
+      { name: "Mechanical Keyboard", image: "https://via.placeholder.com/100", price: "₹5,499", desc: "RGB backlit mechanical keyboard." },
+      { name: "Webcam", image: "https://via.placeholder.com/100", price: "₹3,999", desc: "Full HD USB webcam." },
+      { name: "Bluetooth Speaker", image: "https://via.placeholder.com/100", price: "₹2,799", desc: "Portable Bluetooth speaker." },
+      { name: "USB Hub", image: "https://via.placeholder.com/100", price: "₹1,199", desc: "4-port USB 3.0 hub." },
+      { name: "External SSD", image: "https://via.placeholder.com/100", price: "₹9,999", desc: "1TB high-speed external SSD." },
+      { name: "Wireless Charger", image: "https://via.placeholder.com/100", price: "₹1,599", desc: "Qi-certified wireless charger." },
+      { name: "VR Headset", image: "https://via.placeholder.com/100", price: "₹24,999", desc: "Immersive VR headset." },];
+
+        let currentPage = 1;
+        const rowsPerPage = 10;
+
+        function renderTable(){
+            
+
+            const tableBody = document.querySelector("#producttable tbody");
+            tableBody.innerHTML = "";
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedItems = products.slice(start,end);
+
+            for(const product of paginatedItems){
+               const row =  `<tr>
+                    <td>${product.name}</td>
+                    <td><img src = "${product.image}" alt = "${product.name}"></td>
+                    <td>${product.price}</td>
+                    <td>${product.desc}</td>
+                </tr>`;
+                tableBody.insertAdjacentHTML('beforeend',row);
+            }
+
+            const totalPages = Math.ceil(products.length/rowsPerPage);
+            document.getElementById("pageInfo").textContent = `Page ${currentPage} of ${totalPages}`;
+        }
+
+        function prevPage(){
+            if(currentPage > 1){
+                currentPage--;
+                renderTable();
+            }
+        }
+
+        function NextPage(){
+            if(currentPage < Math.ceil(products.length/rowsPerPage))
+            {
+                currentPage++;
+                renderTable();
+            }
+        }
+
+        renderTable();
+
+
+    </script>
+</body>    
+</html>
