@@ -1,0 +1,11 @@
+<h1>Todo List</h1> 
+<input [(ngModel)]="task" type="text" placeholder="Enter Task Name"> 
+<button (click)="addTask()">{{ editid === null ? 'Add Task' : 'Update Task' }}</button> 
+@for(task of tasklist; track task.id){ 
+<ul class="task_list"> 
+<li>{{task.id}}</li> 
+<li>{{task.name}}</li> 
+<li><button (click)="editTask(task)">Edit</button></li> 
+<li><button (click)="deleteTask(task.id)">Delete</button></li> 
+</ul> 
+} 

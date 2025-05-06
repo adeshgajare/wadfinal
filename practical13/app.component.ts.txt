@@ -1,0 +1,37 @@
+import { Component } from '@angular/core'; 
+import { FormsModule } from '@angular/forms'; 
+@Component({ 
+selector: 'app-root', 
+imports: [FormsModule], 
+templateUrl: './app.component.html', 
+styleUrl: './app.component.css' 
+}) 
+export class AppComponent { 
+title = 'todo'; 
+task=""; 
+tasklist:{id:number,name:string}[]=[] 
+editid: number | null = null; 
+// addTask(){ 
+//  this.tasklist.push({id:this.tasklist.length+1,name:this.task}) 
+//  this.task="" 
+// } 
+addTask(){ 
+if(this.editid === null){ 
+this.tasklist.push({id:this.tasklist.length+1,name:this.task}) 
+}else{ 
+const item=this.tasklist.find(t=>t.id==this.editid); 
+if(item){ 
+item.name=this.task; 
+this.editid=null; 
+} 
+} 
+this.task="" 
+} 
+editTask(task: { id: number; name: string }) { 
+this.task = task.name; 
+this.editid = task.id; 
+} 
+deleteTask(id:number){ 
+this.tasklist=this.tasklist.filter((item)=>item.id!=id); 
+} 
+}
