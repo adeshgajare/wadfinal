@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employees List</title>
+</head>
+<body>
+    <h2>Employee Data</h2>
+    <div id = 'employeeList'></div>
+    <script>
+        fetch('/api/employess')
+            .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById('employeeList');
+                    data.forEach(emp => {
+
+                        container.innerHTML += `
+                        <div>
+                        <h2>Name: ${emp.name}</h2>
+                        <p>Salary: ${emp.Salary}</p>
+                        <p>Designation: ${emp.Designation}</p>
+                        </div>`;
+                    });
+                });
+
+            
+    </script>
+</body>
+</html>
