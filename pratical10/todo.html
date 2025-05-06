@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>To-Do List</title>
+</head>
+<body>
+  <h2>To-Do List</h2>
+  <input type="text" id="task" placeholder="New Task">
+  <button onclick="addTask()">Add</button>
+  <ul id="taskList"></ul>
+
+  <script>
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    function renderTasks() {
+      const list = document.getElementById("taskList");
+      list.innerHTML = "";
+      tasks.forEach((task, index) => {
+        list.innerHTML += `<li>${task} 
+            <button onclick="deleteTask(${index})">Delete</button></li>`;
+      });
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+
+    function addTask() {
+      const task = document.getElementById("task").value;
+      if (task.trim()) {
+        tasks.push(task);
+        renderTasks();
+        document.getElementById("task").value = "";
+      }
+    }
+
+    function deleteTask(index) {
+      tasks.splice(index, 1);
+      renderTasks();
+    }
+
+    renderTasks();
+  </script>
+</body>
+</html>

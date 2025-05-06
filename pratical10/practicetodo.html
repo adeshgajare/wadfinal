@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TO DO APP</title>
+</head>
+<body>
+    <h2>TaskList</h2>
+    <input type = "text" id = "task" placeholder = "Enter your task">
+    <button onclick = "addTask()">Add Task</button>
+    <ul id = "taskList"></ul>
+    <script>
+        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        function renderTask()
+        {
+            const list = document.getElementById("taskList");
+            list.innerHTML = "";
+            tasks.forEach((task,index) => {
+                list.innerHTML += `
+                <li>${task}<button onclick = "deleteTask(${index})">Delete Task</button></li>`;
+            });
+            localStorage.setItem("tasks",JSON.stringify(tasks));
+        }
+        function addTask()
+        {
+            const task = document.getElementById("task").value;
+            if(task.trim()){
+            tasks.push(task);
+            renderTask();
+            document.getElementById("task").value = "";
+            }
+        }
+        function deleteTask(index)
+        {
+            tasks.splice(index,1);
+            renderTask();
+        }
+        renderTask();
+    </script>
+</body>
+</html>
