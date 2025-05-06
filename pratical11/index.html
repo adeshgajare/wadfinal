@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LocalStorage User Registration</title>
+</head>
+<body>
+
+<h2>User Registration</h2>
+<form id="registrationForm">
+  <label>Name:</label><br>
+  <input type="text" id="name" required><br>
+  <label>Email:</label><br>
+  <input type="email" id="email" required><br>
+  <label>Username:</label><br>
+  <input type="text" id="username" required><br><br>
+  <button type="submit">Register</button>
+</form>
+
+<h2>Stored Users</h2>
+<ul id="userList"></ul>
+
+<script>
+  const form = document.getElementById('registrationForm');
+  const userList = document.getElementById('userList');
+
+  // Load users from localStorage
+  function getStoredUsers() {
+    const users = localStorage.getItem('users');
+    return users ? JSON.parse(users) : [];
+  } 
+
+  // Save user to localStorage
+  function saveUser(user) {
+    const users = getStoredUsers();
+    users.push(user);
+    localStorage.setItem('users', JSON.stringify(users));
+  }
+
+  // Display users in the UI
+  function displayUsers() {
+    const users = getStoredUsers();
+    userList.innerHTML = '';
+    users.forEach(user => {
+      const li = document.createElement('li');
+      li.textContent = `${user.name} (${user.username}) - ${user.email}`;
+      userList.appendChild(li);
+    });
+  }
+ // Handle form submission
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const user = {
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      username: document.getElementById('username').value
+    };
+
+    saveUser(user);
+    form.reset(); // Clear the form
+    displayUsers(); // Update the list
+  });
+
+  // Display on load
+  displayUsers();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Registration using localstorage</title>
+</head>
+<body>
+    <h2>User Registration</h2>
+    <form id = "registration">
+        <label>Name:</label><br>
+        <input type = "text" id = "name" required><br><br>
+        <label>Email</label><br>
+        <input type = "email" id = "email" required><br>
+        <label>Username</label><br>
+        <input type = "text" id = "username" required><br><br>
+        <button type = "submit">Register</button>
+    </form>
+    <h2>Stored Users</h2>
+    <ul id = "userlist"></ul>
+
+    <script>
+        const form = document.getElementById("registration");
+        const userlist = document.getElementById("userlist");
+
+        function getStoredusers(){
+            const users = localStorage.getItem("users");
+            return users ? JSON.parse(users) : [];
+        }
+
+        function saveUser(user){
+            const users = getStoredusers();
+            users.push(user);
+            localStorage.setItem("users",JSON.stringify(users));
+        }
+
+        function displayUsers(){
+            const users = getStoredusers();
+            userlist.innerHTML = '';
+            users.forEach(user => {
+                const li = document.createElement("li");
+                li.textContent = `${user.name} (${user.username}) - ${user.email}`;
+                userlist.appendChild(li);
+            });
+        }
+
+        form.addEventListener("submit",function(e) {
+            e.preventDefault();
+            const user = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                username: document.getElementById("username").value
+            };
+            saveUser(user);
+            form.reset();
+            displayUsers();
+        });
+        displayUsers();
+
+    </script>
+</body>
+</html>
