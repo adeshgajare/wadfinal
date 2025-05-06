@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product List</title>
+</head>
+<body>
+    <h2>Product List</h2>
+    <div id = 'productlist'></div>
+    <script>
+        fetch('/api/products')
+            .then(res => res.json())
+                .then(data => {
+                    const list = document.getElementById('productlist');
+                    data.forEach(prod => {
+                        list.innerHTML += 
+                        `<h2>Product Name: ${prod.name}</h2>
+                        <p>Price: ${prod.price}</p>
+                        <img src = "${prod.img1}" alt = "${prod.name}">`
+                    });
+                });
+    </script>
+</body>
+</html>
